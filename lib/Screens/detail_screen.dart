@@ -140,7 +140,7 @@ class DetailScreen extends StatelessWidget {
                         height: 100,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount:candi.imageUrls.length,
+                          itemCount: candi.imageUrls.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: EdgeInsets.only(left: 8),
@@ -152,11 +152,11 @@ class DetailScreen extends StatelessWidget {
                                     border: Border.all(
                                       color: Colors.deepPurple.shade100,
                                       width: 2,
-                                    )
+                                    ),
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
-                                      child: CachedNetworkImage(
+                                    child: CachedNetworkImage(
                                       imageUrl: candi.imageUrls[index],
                                       width: 120,
                                       height: 120,
@@ -166,11 +166,13 @@ class DetailScreen extends StatelessWidget {
                                         height: 120,
                                         color: Colors.deepPurple[50],
                                       ),
-                                      errorWidget: (context, url, error) => Icon(Icons.error),
-                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                    ),
                                   ),
                                 ),
-                              ),);
+                              ),
+                            );
                           },
                         ),
                       ),
