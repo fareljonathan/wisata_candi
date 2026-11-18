@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:wisata_candi/data/candi_data.dart';
 import 'package:wisata_candi/models/candi.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+class SignInScreen  extends StatefulWidget {
+  const SignInScreen ({super.key});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<SignInScreen > createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchScreenState extends State<SignInScreen > {
   // TODO: 1. Deklarasikan variabel yang dibutuhkan
   final List<Candi> _filteredCandis = candiList;
   String _searchQuery = '';
@@ -67,7 +67,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         height: 100,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(candi.imageAsset,
+                          child: Image.asset(
+                            candi.imageAsset,
                             fit: BoxFit.cover,
                           ),
                         ),
