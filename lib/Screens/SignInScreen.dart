@@ -1,93 +1,101 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
+import 'package:wisata_candi/data/candi_data.dart';
+import 'package:wisata_candi/models/candi.dart';
 
-class SignInScreen extends StatefulWidget {
-  SignInScreen({super.key});
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
-  // TODO: 1. Deklarasikan Variabel
-  final TextEditingController _usernameController = TextEditingController();
-
-  final TextEditingController _passwordController = TextEditingController();
-
-  String _errorText = ' ';
-
-  bool _isSignedIn = false;
-
-  bool _obscurePassword = true;
+class _SearchScreenState extends State<SearchScreen> {
+  // TODO: 1. Deklarasikan variabel yang dibutuhkan
+  final List<Candi> _filteredCandis = candiList;
+  String _searchQuery = '';
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // TODO : 2. Pasang AppBar
-      appBar: AppBar(title: Text('Sign In')),
-      // TODO : 3. Pasang Body
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-
-          child: Form(
-            child: Column(
-              // TODO : 4. Atur mainAxisAligment dan crossAxisAligment
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // TODO : 5. Pasang TextFormField Nama Pengguna
-                TextFormField(
-                  controller: _usernameController,
-                  decoration: InputDecoration(
-                    labelText: "Nama Pengguna",
-                    border: OutlineInputBorder(),
+      // TODO: 2. Buat AppBar dengan judul Pencarian Candi
+      appBar: AppBar(title: Text('Pencarian Candi')),
+      // TODO: 3. Buat Body berupa Column
+      body: Column(
+        children: [
+          // TODO: 4. Buat TextField pencarian sebagai anak dari Column
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.deepPurple[50],
+              ),
+              child: TextField(
+                autofocus: false,
+                // TODO: 6. Implementasi fitur pencarian
+                decoration: InputDecoration(
+                  hintText: 'Cari candi...',
+                  prefixIcon: Icon(Icons.search),
+                  // TODO: 7. Implementasi pemasangan input
+                  border: InputBorder.none,
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.deepPurple),
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
                   ),
                 ),
-                // TODO : 6. Pasang TextFormField Kata Sandi
-                SizedBox(height: 20),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                    labelText: "Kata Sandi",
-                    errorText: _errorText.isNotEmpty ? _errorText : null,
-                    border: OutlineInputBorder(),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                      ),
-                    ),
-                  ),
-                  obscureText: !_obscurePassword,
-                ),
-
-                // TODO : 7. Pasang ElevatedButton Sign In
-                SizedBox(height: 20),
-                ElevatedButton(onPressed: () {}, child: Text('Sign In')),
-                // TODO : 8. Pasang TextButton Sign Up
-                SizedBox(height: 10),
-                RichText(
-                  text: TextSpan(
-                    text: 'Belum punya Akun? ',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline,
-                      fontSize: 16,
-                    ),
-                    recognizer: TapGestureRecognizer()..onTap = () {},
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+          // TODO: 5. Buat ListView hasil pencarian sebagai anak dari Column
+          Expanded(
+            child: ListView.builder(
+              itemCount: _filteredCandis.length,
+              itemBuilder: (context, index) {
+                final candi = _filteredCandis[index];
+                return Card(
+                  margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(8),
+                        width: 100,
+                        height: 100,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(candi.imageAsset,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              candi.name,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(candi.location),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
